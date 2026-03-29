@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Move Pearland — Envisioning a Connected Pearland for All</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              green: '#3d6b4f',
+              dark: '#1e3a2a',
+              deep: '#162b20',
+              accent: '#4a7c5c',
+              light: '#e8efe9',
+              cream: '#f5f3ee',
+              warm: '#edeae3',
+              slate: '#1a2b24',
+              muted: '#5e6e62',
+              cta: '#b5493a',
+              'cta-dark': '#973c30',
+            }
+          },
+          fontFamily: {
+            display: ['"Playfair Display"', 'Georgia', 'serif'],
+            body: ['"Montserrat"', 'system-ui', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth;overflow-x:clip}
+    body{font-family:'Montserrat',system-ui,sans-serif;color:#1a2b24;background:#f5f3ee;overflow-x:hidden}
+    .heading{font-family:'Playfair Display',Georgia,serif;letter-spacing:-0.03em;line-height:1.12}
+    .body-text{line-height:1.7}
+
+    /* Progress bar */
+    .progress-bar{position:fixed;top:0;left:0;height:3px;width:100%;z-index:[100]}
+    .progress-bar span{display:block;height:100%;width:0;background:linear-gradient(90deg,#3d6b4f,#4a7c5c);transition:width .1s linear}
+
+    /* Buttons */
+    .btn-primary{background:#1e3a2a;color:#fff;padding:13px 28px;border-radius:8px;font-weight:600;font-size:.875rem;letter-spacing:.02em;text-decoration:none;display:inline-flex;align-items:center;gap:8px;border:none;cursor:pointer;transition:transform .2s cubic-bezier(.34,1.56,.64,1),box-shadow .2s ease}
+    .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(30,58,42,.25)}
+    .btn-primary:focus-visible{outline:2px solid #4a7c5c;outline-offset:3px}
+    .btn-primary:active{transform:translateY(0)}
+
+    .btn-outline{background:transparent;color:#1e3a2a;padding:12px 28px;border-radius:8px;font-weight:600;font-size:.875rem;letter-spacing:.02em;text-decoration:none;display:inline-flex;align-items:center;gap:8px;border:2px solid #1e3a2a;cursor:pointer;transition:transform .2s cubic-bezier(.34,1.56,.64,1),background .2s ease,color .2s ease}
+    .btn-outline:hover{background:#1e3a2a;color:#fff;transform:translateY(-2px)}
+    .btn-outline:focus-visible{outline:2px solid #4a7c5c;outline-offset:3px}
+    .btn-outline:active{transform:translateY(0)}
+
+    .btn-cta{background:#b5493a;color:#fff;padding:13px 28px;border-radius:8px;font-weight:600;font-size:.875rem;letter-spacing:.02em;text-decoration:none;display:inline-flex;align-items:center;gap:8px;border:none;cursor:pointer;transition:transform .2s cubic-bezier(.34,1.56,.64,1),box-shadow .2s ease}
+    .btn-cta:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(181,73,58,.3)}
+    .btn-cta:focus-visible{outline:2px solid #b5493a;outline-offset:3px}
+    .btn-cta:active{transform:translateY(0)}
+
+    /* Nav */
+    .nav-link{font-weight:500;font-size:.85rem;color:#1a2b24;text-decoration:none;padding:4px 0;position:relative;transition:color .2s}
+    .nav-link::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:2px;background:#3d6b4f;border-radius:1px;transition:width .25s cubic-bezier(.34,1.56,.64,1)}
+    .nav-link:hover{color:#1e3a2a}
+    .nav-link:hover::after{width:100%}
+    .nav-link:focus-visible{outline:2px solid #4a7c5c;outline-offset:4px}
+
+    /* Marquee */
+    .marquee{overflow:hidden;mask-image:linear-gradient(90deg,transparent 0,#000 8%,#000 92%,transparent 100%);-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 8%,#000 92%,transparent 100%);padding:16px 0}
+    .marquee-track{display:inline-flex;gap:14px;white-space:nowrap;animation:marquee-scroll 22s linear infinite}
+    .marquee:hover .marquee-track{animation-play-state:paused}
+    .pill{display:inline-flex;align-items:center;gap:8px;padding:11px 20px;border:1px solid #d4d0c8;background:#fff;font-size:.85rem;font-weight:600;color:#1a2b24;border-radius:100px;transition:transform .2s,border-color .2s}
+    .pill:hover{transform:translateY(-1px);border-color:#3d6b4f}
+    .pill svg{width:16px;height:16px;stroke:#3d6b4f;fill:none;stroke-width:2;stroke-linecap:round}
+    @keyframes marquee-scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+    /* Resource cards */
+    .resource-card{background:#fff;border:1px solid #d4d0c8;padding:16px 20px;display:flex;align-items:center;gap:14px;text-decoration:none;color:#1a2b24;transition:transform .2s cubic-bezier(.34,1.56,.64,1),border-color .2s,box-shadow .2s;border-radius:10px}
+    .resource-card:hover{border-color:#3d6b4f;transform:translateY(-2px);box-shadow:0 8px 20px rgba(30,58,42,.08)}
+    .resource-card:focus-visible{outline:2px solid #4a7c5c;outline-offset:2px}
+    .resource-card:active{transform:translateY(0)}
+
+    /* Section label */
+    .label{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.15em;color:#3d6b4f}
+
+    /* Mobile menu */
+    .mobile-menu{display:none}
+    .mobile-menu.open{display:flex}
+
+    .img-cover{object-fit:cover;width:100%;height:100%}
+
+    /* Scroll reveal animations */
+    .reveal{opacity:0;transform:translateY(40px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
+    .reveal.vis{opacity:1;transform:translateY(0)}
+    .reveal-left{opacity:0;transform:translateX(-50px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
+    .reveal-left.vis{opacity:1;transform:translateX(0)}
+    .reveal-right{opacity:0;transform:translateX(50px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
+    .reveal-right.vis{opacity:1;transform:translateX(0)}
+    .reveal-scale{opacity:0;transform:scale(.92);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
+    .reveal-scale.vis{opacity:1;transform:scale(1)}
+    .d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}.d5{transition-delay:.5s}
+
+    /* Parallax image */
+    .parallax-img{transition:transform .1s linear}
+
+    /* KPI cards */
+    .kpi-card{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);padding:24px;border-radius:12px;transition:transform .25s cubic-bezier(.34,1.56,.64,1),border-color .2s;backdrop-filter:blur(4px)}
+    .kpi-card:hover{transform:translateY(-3px);border-color:rgba(255,255,255,.2)}
+
+    /* Phase card */
+    .phase-card{background:#fff;border:1px solid #d4d0c8;padding:28px 24px;border-radius:12px;text-align:center;transition:transform .4s cubic-bezier(.34,1.56,.64,1),box-shadow .3s,border-color .3s;position:relative;overflow:hidden}
+    .phase-card::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(61,107,79,.04),rgba(61,107,79,.01));opacity:0;transition:opacity .3s}
+    .phase-card:hover{transform:translateY(-6px) scale(1.02);box-shadow:0 16px 40px rgba(30,58,42,.12);border-color:#4a7c5c}
+    .phase-card:hover::after{opacity:1}
+    .phase-card:hover .phase-num{transform:scale(1.15) rotate(-5deg)}
+    .phase-card:hover .phase-icon{transform:scale(1.1)}
+    .phase-num{width:44px;height:44px;background:linear-gradient(135deg,#1e3a2a,#3d6b4f);color:#fff;font-weight:700;font-size:.9rem;display:inline-flex;align-items:center;justify-content:center;border-radius:12px;margin-bottom:10px;transition:transform .4s cubic-bezier(.34,1.56,.64,1);position:relative;z-index:1}
+    .phase-icon{width:48px;height:48px;margin:0 auto 12px;display:flex;align-items:center;justify-content:center;transition:transform .4s cubic-bezier(.34,1.56,.64,1)}
+    /* Timeline connector */
+    .timeline-track{position:relative;height:4px;background:#e4e0d8;border-radius:2px;margin:0 auto 40px;max-width:80%}
+    .timeline-fill{position:absolute;top:0;left:0;height:100%;width:0;background:linear-gradient(90deg,#1e3a2a,#3d6b4f,#4a7c5c);border-radius:2px;transition:width 1.5s cubic-bezier(.16,1,.3,1)}
+    .timeline-track.vis .timeline-fill{width:100%}
+    .timeline-dots{display:flex;justify-content:space-between;position:absolute;top:-5px;left:0;right:0}
+    .timeline-dot{width:14px;height:14px;border-radius:50%;background:#e4e0d8;border:3px solid #f5f3ee;transition:background .4s,transform .4s cubic-bezier(.34,1.56,.64,1);z-index:1}
+    .timeline-track.vis .timeline-dot{background:#3d6b4f}
+    .timeline-track.vis .timeline-dot:nth-child(1){transition-delay:.2s}
+    .timeline-track.vis .timeline-dot:nth-child(2){transition-delay:.5s}
+    .timeline-track.vis .timeline-dot:nth-child(3){transition-delay:.8s}
+    .timeline-track.vis .timeline-dot:nth-child(4){transition-delay:1.1s}
+    .timeline-track.vis .timeline-dot{transform:scale(1.3)}
+    /* Phase stagger entrance */
+    .phase-stagger:nth-child(1){transition-delay:.15s}
+    .phase-stagger:nth-child(2){transition-delay:.35s}
+    .phase-stagger:nth-child(3){transition-delay:.55s}
+    .phase-stagger:nth-child(4){transition-delay:.75s}
+
+    /* Counter animation */
+    @keyframes count-up{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+    .count-anim{animation:count-up .6s cubic-bezier(.16,1,.3,1) forwards}
+
+    /* Floating shapes */
+    .float-shape{animation:float-bob 6s ease-in-out infinite}
+    @keyframes float-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+
+    footer a{text-decoration:none;transition:color .2s}
+    footer a:hover{color:#3d6b4f}
+    footer a:focus-visible{outline:2px solid #4a7c5c;outline-offset:2px}
+
+    /* Article chips */
+    .art-chip{border:1px solid rgba(255,255,255,.1);border-radius:100px;padding:7px 14px;font-weight:700;font-size:12px;color:#fff;background:#151515;cursor:pointer;transition:border-color .2s,box-shadow .2s}
+    .art-chip:hover{border-color:rgba(255,255,255,.2)}
+    .art-chip.active{border-color:#b5493a;box-shadow:0 0 0 3px rgba(181,73,58,.2)}
+    .art-chip:focus-visible{outline:2px solid #b5493a;outline-offset:2px}
+
+    /* Article nav arrows */
+    .art-nav{position:absolute;top:50%;transform:translateY(-50%);width:42px;height:42px;border-radius:10px;background:#111;border:1px solid #222;color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:5;transition:background .2s,border-color .2s}
+    .art-nav:hover{background:#fff;color:#111;border-color:#fff}
+    .art-nav:hover svg path{stroke:#111}
+    .art-prev{left:-8px}
+    .art-next{right:-8px}
+    @media(max-width:768px){.art-prev{left:0}.art-next{right:0}}
+
+    /* Article cards */
+    .art-card{scroll-snap-align:start;min-width:320px;max-width:360px;background:#0b0b0b;border:1px solid #1a1a1a;border-radius:14px;overflow:hidden;display:flex;flex-direction:column;transition:transform .3s cubic-bezier(.34,1.56,.64,1),border-color .2s}
+    .art-card:hover{transform:translateY(-4px);border-color:#333}
+    .art-card img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;filter:grayscale(.1);transition:transform .5s cubic-bezier(.22,1,.36,1),filter .3s}
+    .art-card:hover img{transform:scale(1.03);filter:grayscale(0)}
+    .art-card .art-badge{position:absolute;top:10px;left:10px;background:rgba(0,0,0,.6);color:#fff;font-weight:800;font-size:11px;padding:4px 10px;border-radius:100px;border:1px solid rgba(255,255,255,.1)}
+    .art-card .art-title{color:#f6f7fb;font-weight:800;font-size:15px;line-height:1.35;margin:12px 14px 6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:calc(1.35em*2)}
+    .art-card .art-summary{color:#94a3b8;font-size:12.5px;line-height:1.55;margin:0 14px 14px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;flex:1}
+    .art-card .art-meta{display:flex;align-items:center;justify-content:space-between;gap:8px;border-top:1px solid #1a1a1a;padding:10px 14px}
+    .art-tag{font-size:11px;color:#e5e7eb;background:#151515;border:1px solid #262626;padding:3px 8px;border-radius:100px}
+    .art-actions{display:flex;gap:5px}
+    .art-btn{border:1px solid #1a1a1a;background:#121212;color:#fff;width:32px;height:32px;border-radius:8px;display:grid;place-items:center;cursor:pointer;transition:border-color .2s}
+    .art-btn:hover{border-color:#3a3a3a}
+    .art-btn.saved{background:#b5493a;border-color:#b5493a}
+    @media(max-width:640px){.art-card{min-width:280px}}
+  </style>
+</head>
+<body>
+
+  <!-- Progress bar -->
+  <div class="progress-bar" style="z-index:100;"><span id="prog"></span></div>
+
+  <!-- NAV -->
+  <nav class="fixed top-0 left-0 right-0 z-50 bg-brand-cream/92 backdrop-blur-md border-b border-black/5" id="navbar">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="flex items-center justify-between h-16">
+        <a href="index.html" style="text-decoration:none;" class="flex items-center gap-3">
+          <img src="images/logo.png" alt="Move Pearland" class="h-11 w-auto">
+          <span class="heading text-lg text-brand-dark hidden sm:inline">Move <strong class="text-brand-green">Pearland</strong></span>
+        </a>
+        <div class="hidden md:flex items-center gap-7">
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="about.html" class="nav-link">About Us</a>
+          <a href="budget.html" class="nav-link">Budget Proposal</a>
+          <a href="contact.html" class="nav-link">Contact Us</a>
+          <a href="#involved" class="btn-primary" style="padding:9px 22px;">Get Involved</a>
+        </div>
+        <button class="md:hidden p-2" onclick="document.getElementById('mob').classList.toggle('open')" aria-label="Menu" style="background:none;border:none;cursor:pointer;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1a2b24" stroke-width="2.5" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+      </div>
+      <div id="mob" class="mobile-menu flex-col gap-1 pb-5">
+        <a href="index.html" class="nav-link py-3">Home</a>
+        <a href="about.html" class="nav-link py-3">About Us</a>
+        <a href="budget.html" class="nav-link py-3">Budget Proposal</a>
+        <a href="contact.html" class="nav-link py-3">Contact Us</a>
+        <a href="#involved" class="btn-primary mt-2" style="justify-content:center;">Get Involved</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ==================== BANNER ==================== -->
+  <div class="pt-16 bg-brand-cream">
+    <div class="max-w-6xl mx-auto px-6 pt-6">
+      <img src="images/pearland-mural.jpg" alt="Pearland mural" style="display:block;width:100%;height:160px;object-fit:cover;object-position:center 35%;border-radius:10px;">
+    </div>
+  </div>
+
+  <!-- ==================== HERO ==================== -->
+  <section class="pt-12 pb-12 md:pt-20 md:pb-16 bg-brand-cream relative" style="overflow:hidden;">
+
+
+    <div class="max-w-6xl mx-auto px-6 relative z-10">
+      <div class="text-center max-w-3xl mx-auto mb-10">
+        <p class="label mb-4 reveal">Reimagine Pearland Initiative</p>
+        <h1 class="heading text-4xl sm:text-5xl lg:text-[3.8rem] text-brand-slate mb-6 reveal d1">
+          Envisioning a <span class="relative inline-block"><span class="relative z-10">Connected</span><span class="absolute bottom-1 left-0 right-0 h-3 bg-brand-accent/20 -z-0 rounded-sm"></span></span> Pearland for <em class="text-brand-green" style="font-style:italic;">All</em>
+        </h1>
+        <p class="body-text text-brand-muted text-base md:text-lg max-w-2xl mx-auto mb-8 reveal d2">
+          The <a href="about.html" class="underline text-brand-dark">Reimagine Pearland Initiative</a> is dedicated to enhancing Pearland Parkway and Broadway Street with safe, accessible sidewalks and bike lanes&mdash;fostering a healthier, more connected community.
+        </p>
+        <div class="flex flex-wrap justify-center gap-3 reveal d3">
+          <a href="#involved" class="btn-primary">
+            Get Involved
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </a>
+          <a href="#solution" class="btn-outline">Learn More</a>
+        </div>
+      </div>
+
+      <!-- Marquee -->
+      <div class="marquee reveal d4">
+        <div class="marquee-track">
+          <span class="pill"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg> Safer school routes</span>
+          <span class="pill"><svg viewBox="0 0 24 24"><path d="M20.42 4.58a5.4 5.4 0 0 0-7.65 0l-.77.78-.77-.78a5.4 5.4 0 0 0-7.65 0C1.46 6.7 1.33 10.28 4 13l8 8 8-8c2.67-2.72 2.54-6.3.42-8.42z"/></svg> Healthier daily trips</span>
+          <span class="pill"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m8 12 2.5 2.5L16 9"/></svg> ADA accessibility</span>
+          <span class="pill"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a4 4 0 0 0-8 0v2"/></svg> Small-business access</span>
+          <span class="pill"><svg viewBox="0 0 24 24"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg> Cleaner air</span>
+          <span class="pill"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> Neighborhood connection</span>
+          <span class="pill"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg> Safer school routes</span>
+          <span class="pill"><svg viewBox="0 0 24 24"><path d="M20.42 4.58a5.4 5.4 0 0 0-7.65 0l-.77.78-.77-.78a5.4 5.4 0 0 0-7.65 0C1.46 6.7 1.33 10.28 4 13l8 8 8-8c2.67-2.72 2.54-6.3.42-8.42z"/></svg> Healthier daily trips</span>
+          <span class="pill"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m8 12 2.5 2.5L16 9"/></svg> ADA accessibility</span>
+          <span class="pill"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a4 4 0 0 0-8 0v2"/></svg> Small-business access</span>
+          <span class="pill"><svg viewBox="0 0 24 24"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg> Cleaner air</span>
+          <span class="pill"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> Neighborhood connection</span>
+        </div>
+      </div>
+
+      <!-- Resources -->
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-3 mt-6">
+        <a href="https://gis.pearlandtx.gov/images/open%20data%20portal/MapGallery/Planning/Thoroughfare%20Plan.pdf" class="resource-card reveal d1" target="_blank">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3d6b4f" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          <div><p class="font-semibold text-sm">City Thoroughfare Plan</p><p class="text-xs text-brand-muted mt-0.5">PDF</p></div>
+        </a>
+        <a href="https://baxterwoodman.com/wp-content/uploads/2024/08/Multi-Modal-Master-Plan-Pearland-TX.pdf" class="resource-card reveal d2" target="_blank">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3d6b4f" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          <div><p class="font-semibold text-sm">Multi-Modal Master Plan</p><p class="text-xs text-brand-muted mt-0.5">PDF</p></div>
+        </a>
+        <a href="https://www.h-gac.com/pedestrian-bicyclist-planning/2045-active-transportation-plan" class="resource-card reveal d3" target="_blank">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3d6b4f" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          <div><p class="font-semibold text-sm">Regional Active Transportation</p><p class="text-xs text-brand-muted mt-0.5">H-GAC</p></div>
+        </a>
+        <button class="resource-card reveal d4" id="copy-pitch" type="button" style="cursor:pointer;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3d6b4f" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <div><p class="font-semibold text-sm" id="pitch-text">Copy 60-sec pitch</p><p class="text-xs text-brand-muted mt-0.5">Share the vision</p></div>
+        </button>
+      </div>
+
+      <!-- Hero image -->
+      <figure class="mt-10 relative overflow-hidden rounded-xl reveal-scale d2">
+        <img src="images/pearland-pears.jpg" alt="Public art in walkable Pearland" class="w-full" style="aspect-ratio:21/9;object-fit:cover;">
+        <div class="absolute inset-0 bg-gradient-to-t from-brand-deep/50 via-transparent to-transparent"></div>
+        <div class="absolute inset-0 bg-brand-dark/8 mix-blend-multiply"></div>
+        <figcaption class="absolute bottom-4 left-5 right-5 text-white/80 text-sm font-medium" id="hero-caption">
+          Pearland's <strong>Thoroughfare & Multi-Modal plans</strong> can connect homes, schools, parks, and shops with safer walking and biking.
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ==================== THE SITUATION ==================== -->
+  <section id="the-situation" class="py-20 md:py-28 relative overflow-hidden" style="background:linear-gradient(160deg,#162b20 0%,#1a2b24 50%,#1e3530 100%);">
+    <div class="max-w-6xl mx-auto px-6 relative z-10">
+      <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <!-- Image -->
+        <div class="reveal-left">
+          <div class="rounded-xl overflow-hidden" style="box-shadow:0 20px 50px rgba(0,0,0,.3);">
+            <img src="images/pearland-street.jpg" alt="Pearland public space" class="img-cover" style="aspect-ratio:4/3;">
+          </div>
+        </div>
+        <!-- Content -->
+        <div>
+          <div class="flex items-center gap-3 mb-3 reveal">
+            <span class="w-2 h-2 rounded-full bg-green-400" style="box-shadow:0 0 8px rgba(74,222,128,.5);animation:pulse-glow 2s ease-in-out infinite;"></span>
+            <span class="text-xs text-white/50 font-medium">Live metrics</span>
+          </div>
+          <h2 class="heading text-3xl sm:text-4xl md:text-[2.8rem] text-white mb-5 reveal d1">The Situation</h2>
+          <p class="body-text text-white/55 mb-8 reveal d2">
+            Pearland's growing population faces rising risks without proper pedestrian infrastructure. From statewide increases in crashes to local fatalities in nearby Houston, the data shows a need for immediate action. Sidewalks aren't just a convenience&mdash;they're a critical step toward safer, healthier, and more connected neighborhoods.
+          </p>
+          <!-- Stats grid -->
+          <div class="grid grid-cols-2 gap-4">
+            <div class="kpi-card reveal d1">
+              <p class="heading text-3xl text-white mb-1 count-el" data-target="127000">0</p>
+              <p class="text-xs text-white/45 font-medium">Residents in Pearland</p>
+            </div>
+            <div class="kpi-card reveal d2">
+              <p class="heading text-3xl text-white mb-1 count-el" data-target="5924">0</p>
+              <p class="text-xs text-white/45 font-medium">Pedestrian crashes (regional)</p>
+            </div>
+            <div class="kpi-card reveal d3">
+              <p class="heading text-3xl text-white mb-1 count-el" data-target="202">0</p>
+              <p class="text-xs text-white/45 font-medium">Houston-area pedestrian deaths</p>
+            </div>
+            <div class="kpi-card reveal d4">
+              <p class="heading text-3xl text-white mb-1"><span class="count-el" data-target="60">0</span>%</p>
+              <p class="text-xs text-white/45 font-medium">Increase in cyclist deaths<br>(2017&ndash;2021)</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <style>@keyframes pulse-glow{0%,100%{opacity:1}50%{opacity:.4}}</style>
+    <!-- Decorative -->
+    <div class="absolute -top-20 -right-20 w-80 h-80 rounded-full opacity-[0.06]" style="background:radial-gradient(circle,#4a7c5c,transparent 70%);"></div>
+    <div class="absolute -bottom-20 -left-20 w-60 h-60 rounded-full opacity-[0.05]" style="background:radial-gradient(circle,#3d6b4f,transparent 70%);"></div>
+  </section>
+
+  <!-- ==================== THE SOLUTION ==================== -->
+  <section id="solution" class="py-20 md:py-28 bg-brand-cream relative">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="grid lg:grid-cols-5 gap-12 lg:gap-16">
+        <!-- Text (3 cols) -->
+        <div class="lg:col-span-3">
+          <p class="label mb-3 reveal">The Solution</p>
+          <h2 class="heading text-3xl sm:text-4xl md:text-[2.8rem] text-brand-slate mb-6 reveal d1">A Pearland built for people, not just cars</h2>
+          <div class="space-y-5 reveal d2">
+            <p class="body-text text-brand-muted">Pearland can be more than a place built around cars. It can be a place where people walk, bike, gather, and thrive.</p>
+            <p class="body-text text-brand-muted">We envision tree-lined streets with protected bike lanes, shaded sidewalks, and small parks that bring people together. Locally owned shops and homes can be integrated into walkable blocks that reflect the unique character of Pearland.</p>
+            <p class="body-text text-brand-muted">This is more than a design update. It's a commitment to livability, sustainability, and equity&mdash;a Pearland where everyone, regardless of age or ability, can move safely and feel proud of the place they call home.</p>
+          </div>
+          <div class="mt-6 p-5 rounded-lg reveal d3" style="border-left:4px solid #3d6b4f;background:rgba(61,107,79,.06);">
+            <p class="text-brand-slate font-medium leading-relaxed">
+              The <a href="about.html" class="underline">Reimagine Pearland Initiative</a> aims to build <strong>8.5 miles of protected bike lanes and six-foot sidewalks</strong> along Pearland Parkway and Broadway Street. This project will create shaded, people-first corridors that make it safer and easier to walk, bike, and connect across the city.
+            </p>
+          </div>
+          <div class="mt-7 reveal d4">
+            <a href="#involved" class="btn-primary">
+              Support the Initiative
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- QR + Petition sidebar -->
+        <aside class="lg:col-span-2">
+          <div class="bg-white border border-black/8 p-6 mb-5 rounded-xl reveal-right" style="box-shadow:0 8px 30px rgba(30,58,42,.06);">
+            <figure class="cursor-pointer" id="qr-card">
+              <img src="https://i.ibb.co/1Gnd2wSs/petition-qrcode.png" alt="Scan to sign the petition" class="w-full rounded-lg">
+              <figcaption class="text-xs text-brand-muted mt-3 text-center">Tap to enlarge &middot; Scan to sign</figcaption>
+            </figure>
+            <a href="https://chng.it/cZ4FL4nF9w" target="_blank" class="btn-cta w-full justify-center mt-4" style="display:flex;">
+              Sign the Petition
+            </a>
+          </div>
+
+          <!-- Live petition counter -->
+          <div class="bg-white border border-black/8 p-5 rounded-xl reveal-right d2" style="box-shadow:0 8px 30px rgba(30,58,42,.06);" id="petition-card">
+            <div class="flex items-center gap-3 mb-3">
+              <span class="heading text-3xl text-brand-slate" id="petition-count">&mdash;</span>
+              <div>
+                <p class="font-bold text-xs text-brand-slate">Live Petition Signatures</p>
+                <p class="text-xs text-brand-muted" id="next-goal">Loading&hellip;</p>
+              </div>
+            </div>
+            <div class="w-full h-2 bg-gray-100 overflow-hidden rounded-full">
+              <span class="block h-full rounded-full transition-all" style="width:0%;background:linear-gradient(90deg,#3d6b4f,#b5493a);" id="progress-fill"></span>
+            </div>
+            <div class="flex gap-2 mt-3 flex-wrap">
+              <button class="text-xs font-bold border border-black/10 px-3 py-1.5 bg-white hover:bg-gray-50 cursor-pointer rounded-full transition-transform hover:scale-105" data-goal="650">650</button>
+              <button class="text-xs font-bold border border-black/10 px-3 py-1.5 bg-white hover:bg-gray-50 cursor-pointer rounded-full transition-transform hover:scale-105" data-goal="750">750</button>
+              <button class="text-xs font-bold border border-black/10 px-3 py-1.5 bg-white hover:bg-gray-50 cursor-pointer rounded-full transition-transform hover:scale-105" data-goal="1000">1000</button>
+            </div>
+            <p class="text-[10px] text-brand-muted mt-2 text-right" id="petition-updated"></p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== MAP ==================== -->
+  <section class="py-20 md:py-28" style="background:#fff;">
+    <div class="max-w-6xl mx-auto px-6 text-center">
+      <p class="label mb-3 reveal">Proposed Routes</p>
+      <h2 class="heading text-3xl sm:text-4xl text-brand-slate mb-3 reveal d1">Explore Our Proposed Routes</h2>
+      <p class="body-text text-brand-muted max-w-2xl mx-auto mb-8 reveal d2">
+        Use the interactive map below to discover detailed routes and project areas along Pearland Parkway and Broadway Street.
+      </p>
+      <div class="flex justify-center gap-3 mb-6 reveal d3">
+        <a href="https://www.google.com/maps/d/u/0/viewer?mid=1nfTrQzDvmExHt1snYWuP85scawsx8VA" target="_blank" class="btn-cta">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 3h7v7M21 3 10 14"/></svg>
+          Open Full Map
+        </a>
+        <button class="btn-outline" id="map-copy" type="button">Copy Link</button>
+      </div>
+      <div class="relative w-full overflow-hidden rounded-xl border border-black/8 reveal-scale d2" style="height:55vh;min-height:480px;box-shadow:0 12px 40px rgba(30,58,42,.08);" id="map-frame">
+        <div style="position:absolute;inset:0;background:linear-gradient(100deg,#f3f4f6 0%,#f8fafc 20%,#f3f4f6 40%) no-repeat;background-size:200% 100%;animation:shimmer 1.2s linear infinite;border-radius:12px;"></div>
+      </div>
+      <div class="flex justify-center gap-6 mt-4 text-xs text-brand-muted reveal d4">
+        <span class="flex items-center gap-2"><span class="inline-block w-5 h-1 bg-blue-600 rounded-full"></span> Proposed Lanes</span>
+      </div>
+    </div>
+  </section>
+  <style>@keyframes shimmer{to{background-position-x:-200%}}</style>
+
+  <!-- ==================== PROJECT PHASES ==================== -->
+  <section id="budget" class="py-20 md:py-28 bg-brand-cream overflow-hidden">
+    <div class="max-w-6xl mx-auto px-6 text-center">
+      <p class="label mb-3 reveal">Roadmap</p>
+      <h2 class="heading text-3xl sm:text-4xl text-brand-slate mb-4 reveal d1">Project Phases</h2>
+      <p class="body-text text-brand-muted max-w-lg mx-auto mb-12 reveal d2">From planning to completion &mdash; here's how we'll transform Pearland's streets into safe, walkable corridors.</p>
+
+      <!-- Timeline connector (desktop only) -->
+      <div class="timeline-track hidden lg:block reveal" id="timeline">
+        <div class="timeline-fill"></div>
+        <div class="timeline-dots">
+          <div class="timeline-dot"></div>
+          <div class="timeline-dot"></div>
+          <div class="timeline-dot"></div>
+          <div class="timeline-dot"></div>
+        </div>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div class="phase-card reveal phase-stagger">
+          <div class="phase-icon">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#3d6b4f" stroke-width="1.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg>
+          </div>
+          <div class="phase-num">1</div>
+          <h3 class="font-bold text-base text-brand-slate mb-2">Planning</h3>
+          <p class="text-sm text-brand-muted body-text">Confirm corridor, collect community input, and set priorities.</p>
+          <div class="mt-4 pt-3 border-t border-black/5">
+            <span class="text-[10px] font-bold uppercase tracking-widest text-brand-green">Research & Input</span>
+          </div>
+        </div>
+        <div class="phase-card reveal phase-stagger">
+          <div class="phase-icon">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#3d6b4f" stroke-width="1.5" stroke-linecap="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+          </div>
+          <div class="phase-num">2</div>
+          <h3 class="font-bold text-base text-brand-slate mb-2">Design</h3>
+          <p class="text-sm text-brand-muted body-text">Finalize protected lanes, sidewalks, crossings, and shading.</p>
+          <div class="mt-4 pt-3 border-t border-black/5">
+            <span class="text-[10px] font-bold uppercase tracking-widest text-brand-green">Engineering</span>
+          </div>
+        </div>
+        <div class="phase-card reveal phase-stagger">
+          <div class="phase-icon">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#3d6b4f" stroke-width="1.5" stroke-linecap="round"><rect x="2" y="6" width="20" height="8" rx="1"/><path d="M17 14v7"/><path d="M7 14v7"/><path d="M17 3v3"/><path d="M7 3v3"/><path d="M10 14 2.3 6.3"/><path d="m14 6 7.7 7.7"/></svg>
+          </div>
+          <div class="phase-num">3</div>
+          <h3 class="font-bold text-base text-brand-slate mb-2">Construction</h3>
+          <p class="text-sm text-brand-muted body-text">Build corridors, plant trees, install signage and ADA ramps.</p>
+          <div class="mt-4 pt-3 border-t border-black/5">
+            <span class="text-[10px] font-bold uppercase tracking-widest text-brand-green">Build Phase</span>
+          </div>
+        </div>
+        <div class="phase-card reveal phase-stagger">
+          <div class="phase-icon">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#3d6b4f" stroke-width="1.5" stroke-linecap="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          </div>
+          <div class="phase-num">4</div>
+          <h3 class="font-bold text-base text-brand-slate mb-2">Completion</h3>
+          <p class="text-sm text-brand-muted body-text">Open routes, safety audit, and community celebration kickoff.</p>
+          <div class="mt-4 pt-3 border-t border-black/5">
+            <span class="text-[10px] font-bold uppercase tracking-widest text-brand-green">Launch</span>
+          </div>
+        </div>
+      </div>
+      <div class="mt-10 reveal d5">
+        <a href="budget.html" class="btn-cta">
+          View the Budget Proposal
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== EXPLORE ARTICLES ==================== -->
+  <section class="py-20 md:py-28 overflow-hidden" style="background:#0a0a0a;">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="text-center mb-10">
+        <p class="label mb-3 reveal" style="color:#b5493a;">Explore</p>
+        <h2 class="heading text-3xl sm:text-4xl text-white mb-3 reveal d1">Articles on Walkable Cities</h2>
+        <p class="body-text text-white/40 max-w-lg mx-auto reveal d2">Research, data, and ideas behind the movement for safer streets.</p>
+      </div>
+
+      <!-- Filters -->
+      <div class="flex flex-wrap items-center justify-between gap-3 mb-6 reveal d3">
+        <div class="flex gap-2 flex-wrap" id="art-chips">
+          <button type="button" class="art-chip active" data-tag="all">All</button>
+          <button type="button" class="art-chip" data-tag="safety">Safety</button>
+          <button type="button" class="art-chip" data-tag="design">Design</button>
+          <button type="button" class="art-chip" data-tag="policy">Policy</button>
+          <button type="button" class="art-chip" data-tag="economy">Economy</button>
+        </div>
+        <div class="flex gap-2 items-center">
+          <input id="art-search" type="search" placeholder="Search articles…" class="px-3 py-2 text-sm text-white rounded-lg border border-white/10 focus:outline-none focus:border-white/25" style="background:#151515;min-width:0;width:min(40vw,280px);">
+          <button id="art-open-saved" type="button" class="px-3 py-2 text-xs font-bold text-white rounded-lg border border-white/10 hover:border-white/25 cursor-pointer" style="background:#151515;">Open Saved</button>
+        </div>
+      </div>
+
+      <!-- Horizontal scroller -->
+      <div class="relative reveal d4">
+        <button class="art-nav art-prev" aria-label="Scroll left" type="button">
+          <svg viewBox="0 0 24 24" width="20" height="20"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div id="art-row" class="flex gap-4 overflow-x-auto pb-4 scroll-smooth snap-x snap-mandatory" style="scrollbar-width:thin;scrollbar-color:#1c1c1c transparent;-webkit-overflow-scrolling:touch;"></div>
+        <button class="art-nav art-next" aria-label="Scroll right" type="button">
+          <svg viewBox="0 0 24 24" width="20" height="20"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== GET INVOLVED ==================== -->
+  <section id="involved" class="py-20 md:py-28 relative overflow-hidden" style="background:linear-gradient(135deg,#1e3a2a 0%,#162b20 60%,#1a3028 100%);">
+    <div class="max-w-6xl mx-auto px-6 relative z-10">
+      <div class="max-w-2xl mx-auto text-center">
+        <p class="label mb-3 reveal" style="color:rgba(255,255,255,.35);">Get Involved</p>
+        <h2 class="heading text-3xl sm:text-4xl md:text-5xl text-white mb-5 reveal d1">Help build a better Pearland</h2>
+        <p class="body-text text-white/45 text-lg mb-10 reveal d2">
+          Your voice matters. Sign the petition, attend a meeting, or spread the word. Every action brings us closer to a safer, more walkable community.
+        </p>
+        <div class="flex flex-wrap justify-center gap-3 reveal d3">
+          <a href="https://chng.it/cZ4FL4nF9w" target="_blank" class="btn-primary" style="background:#fff;color:#1e3a2a;">
+            Sign the Petition
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </a>
+          <a href="contact.html" class="btn-outline" style="color:#fff;border-color:rgba(255,255,255,.2);">Contact Us</a>
+        </div>
+      </div>
+    </div>
+    <div class="absolute -top-10 -right-10 w-60 h-60 rounded-full opacity-[0.08]" style="background:radial-gradient(circle,#4a7c5c,transparent 70%);"></div>
+    <div class="absolute -bottom-10 -left-10 w-40 h-40 rounded-full opacity-[0.06]" style="background:radial-gradient(circle,#3d6b4f,transparent 70%);"></div>
+  </section>
+
+  <!-- ==================== CONTACT PREVIEW ==================== -->
+  <section id="contact" class="py-20 md:py-28 bg-brand-cream">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="grid lg:grid-cols-2 gap-12 lg:gap-20">
+        <div>
+          <p class="label mb-3 reveal">Contact Us</p>
+          <h2 class="heading text-3xl sm:text-4xl text-brand-slate mb-5 reveal d1">Join Our Vision</h2>
+          <p class="body-text text-brand-muted mb-8 reveal d2">
+            The Reimagine Pearland Initiative invites you to shape Pearland's future. Your involvement helps create safer, greener, and more connected communities through sustainable urban planning.
+          </p>
+          <div class="space-y-4 reveal d3">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 bg-brand-light rounded-lg flex items-center justify-center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1e3a2a" stroke-width="2" stroke-linecap="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 4-10 8L2 4"/></svg></div>
+              <a href="mailto:reimaginepearlandinitiative@gmail.com" class="text-sm font-medium text-brand-slate hover:text-brand-green" style="text-decoration:none;">reimaginepearlandinitiative@gmail.com</a>
+            </div>
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 bg-brand-light rounded-lg flex items-center justify-center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1e3a2a" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+              <span class="text-sm font-medium text-brand-slate">(832)-523-8541</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 bg-brand-light rounded-lg flex items-center justify-center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1e3a2a" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+              <span class="text-sm font-medium text-brand-slate">Pearland, Texas</span>
+            </div>
+          </div>
+        </div>
+        <div class="reveal-right d2">
+          <form class="bg-white p-8 rounded-xl border border-black/5 space-y-4" style="box-shadow:0 8px 30px rgba(30,58,42,.06);">
+            <div>
+              <label class="block text-xs font-semibold text-brand-slate mb-1.5">Name</label>
+              <input type="text" class="w-full px-4 py-3 bg-brand-cream border border-black/8 text-sm font-medium text-brand-slate focus:outline-none focus:border-brand-green rounded-lg" placeholder="Enter your name">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-brand-slate mb-1.5">Email</label>
+              <input type="email" class="w-full px-4 py-3 bg-brand-cream border border-black/8 text-sm font-medium text-brand-slate focus:outline-none focus:border-brand-green rounded-lg" placeholder="Enter your email">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-brand-slate mb-1.5">Message</label>
+              <textarea rows="4" class="w-full px-4 py-3 bg-brand-cream border border-black/8 text-sm font-medium text-brand-slate focus:outline-none focus:border-brand-green resize-none rounded-lg" placeholder="Type your message"></textarea>
+            </div>
+            <button type="submit" class="btn-primary w-full justify-center">Send Message</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="py-14 border-t border-black/5" style="background:#edeae3;">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+        <div>
+          <div class="flex items-center gap-2 mb-4">
+            <img src="images/logo.png" alt="Move Pearland" class="h-10 w-auto">
+          </div>
+          <p class="body-text text-brand-muted text-sm max-w-xs">Reimagining safer, more connected streets for everyone in Pearland.</p>
+          <div class="flex gap-3 mt-5">
+            <a href="#" aria-label="Facebook" class="w-9 h-9 flex items-center justify-center border border-black/10 rounded-lg hover:border-brand-dark hover:bg-brand-dark/5 transition-transform hover:scale-105">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="#1a2b24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            </a>
+            <a href="https://www.instagram.com/movepearland" aria-label="Instagram" class="w-9 h-9 flex items-center justify-center border border-black/10 rounded-lg hover:border-brand-dark hover:bg-brand-dark/5 transition-transform hover:scale-105" target="_blank">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1a2b24" stroke-width="2" stroke-linecap="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </a>
+            <a href="#" aria-label="Twitter" class="w-9 h-9 flex items-center justify-center border border-black/10 rounded-lg hover:border-brand-dark hover:bg-brand-dark/5 transition-transform hover:scale-105">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="#1a2b24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            </a>
+          </div>
+        </div>
+        <div>
+          <h4 class="font-bold text-xs text-brand-slate mb-4 uppercase tracking-wider">Explore</h4>
+          <ul class="space-y-2.5">
+            <li><a href="index.html" class="text-sm text-brand-muted">Home</a></li>
+            <li><a href="budget.html" class="text-sm text-brand-muted">Budget Proposal</a></li>
+            <li><a href="about.html" class="text-sm text-brand-muted">About Us</a></li>
+            <li><a href="contact.html" class="text-sm text-brand-muted">How to Join</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold text-xs text-brand-slate mb-4 uppercase tracking-wider">Resources</h4>
+          <ul class="space-y-2.5">
+            <li><a href="https://gis.pearlandtx.gov/images/open%20data%20portal/MapGallery/Planning/Thoroughfare%20Plan.pdf" class="text-sm text-brand-muted">City Thoroughfare Plan</a></li>
+            <li><a href="https://baxterwoodman.com/wp-content/uploads/2024/08/Multi-Modal-Master-Plan-Pearland-TX.pdf" class="text-sm text-brand-muted">Multi-Modal Master Plan</a></li>
+            <li><a href="https://www.h-gac.com/pedestrian-bicyclist-planning/2045-active-transportation-plan" class="text-sm text-brand-muted">H-GAC Active Transportation</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold text-xs text-brand-slate mb-4 uppercase tracking-wider">Stay Updated</h4>
+          <p class="text-sm text-brand-muted mb-3">Get updates on proposals, meetings, and progress.</p>
+          <div class="flex gap-2">
+            <input type="email" placeholder="Your email" class="flex-1 px-3 py-2 bg-white border border-black/10 text-sm focus:outline-none focus:border-brand-green rounded-lg" style="min-width:0;">
+            <button class="btn-primary" style="padding:8px 16px;font-size:.8rem;">Subscribe</button>
+          </div>
+          <p class="text-xs text-brand-muted mt-2">No spam. Unsubscribe anytime.</p>
+        </div>
+      </div>
+      <div class="pt-8 border-t border-black/8 flex flex-col sm:flex-row justify-between items-center gap-3">
+        <p class="text-xs text-brand-muted">&copy; 2025 Reimagine Pearland Initiative. All rights reserved.</p>
+        <p class="text-xs text-brand-muted">Pearland, Texas</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- QR Modal -->
+  <div id="qr-modal" class="fixed inset-0 z-[100]" style="display:none;">
+    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" data-close></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white p-4 max-w-lg w-[90vw] rounded-xl" style="box-shadow:0 20px 60px rgba(0,0,0,.3);">
+      <button class="absolute top-3 right-3 w-9 h-9 flex items-center justify-center bg-brand-dark text-white rounded-lg" style="border:none;cursor:pointer;" data-close aria-label="Close">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 5 19 19M19 5 5 19"/></svg>
+      </button>
+      <img src="https://i.ibb.co/1Gnd2wSs/petition-qrcode.png" alt="Petition QR Code" class="w-full rounded-lg">
+    </div>
+  </div>
+
+  <!-- ==================== SCRIPTS ==================== -->
+  <script>
+  // Scroll reveal
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('vis'); obs.unobserve(e.target); } });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal,.reveal-left,.reveal-right,.reveal-scale,.timeline-track').forEach(el => obs.observe(el));
+
+  // Progress bar
+  const prog = document.getElementById('prog');
+  window.addEventListener('scroll', () => {
+    const h = document.documentElement;
+    prog.style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight) * 100 || 0) + '%';
+  }, { passive: true });
+
+  // Nav shadow on scroll
+  const nav = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    nav.style.boxShadow = window.scrollY > 20 ? '0 4px 20px rgba(26,43,36,.06)' : 'none';
+  }, { passive: true });
+
+  // Count-up animation
+  const countObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      countObs.unobserve(e.target);
+      const target = parseInt(e.target.dataset.target);
+      const duration = 1500;
+      const start = performance.now();
+      function tick(now) {
+        const p = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - p, 3);
+        const val = Math.round(eased * target);
+        e.target.textContent = val.toLocaleString();
+        if (p < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    });
+  }, { threshold: 0.5 });
+  document.querySelectorAll('.count-el').forEach(el => countObs.observe(el));
+
+  // Copy pitch
+  (() => {
+    const btn = document.getElementById('copy-pitch');
+    const txt = document.getElementById('pitch-text');
+    const pitch = `I'm supporting the Reimagine Pearland Initiative to make Pearland Parkway and Broadway safer and more connected with continuous sidewalks and protected bike links. These corridors would help students, seniors, and families move safely between homes, schools, parks, and shops—boosting health and local business while reducing traffic stress.`;
+    btn?.addEventListener('click', async () => {
+      try { await navigator.clipboard.writeText(pitch); } catch {}
+      const prev = txt.textContent;
+      txt.textContent = 'Copied!';
+      setTimeout(() => txt.textContent = prev, 1200);
+    });
+  })();
+
+  // QR modal
+  (() => {
+    const card = document.getElementById('qr-card');
+    const modal = document.getElementById('qr-modal');
+    card?.addEventListener('click', () => modal.style.display = 'block');
+    modal?.addEventListener('click', e => {
+      if (e.target.hasAttribute('data-close') || e.target.closest('[data-close]')) modal.style.display = 'none';
+    });
+  })();
+
+  // Map lazy load
+  (() => {
+    const frame = document.getElementById('map-frame');
+    const src = "https://www.google.com/maps/d/u/0/embed?mid=1nfTrQzDvmExHt1snYWuP85scawsx8VA&ehbc=2E312F&noprof=1";
+    const io = new IntersectionObserver(es => {
+      if (es[0].isIntersecting) {
+        const ifr = document.createElement('iframe');
+        ifr.src = src; ifr.loading = 'lazy'; ifr.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;border:0;border-radius:12px;';
+        ifr.addEventListener('load', () => { const sk = frame.querySelector('div'); if (sk) sk.remove(); });
+        frame.appendChild(ifr);
+        io.disconnect();
+      }
+    }, { threshold: 0.1 });
+    io.observe(frame);
+    document.getElementById('map-copy')?.addEventListener('click', async () => {
+      try { await navigator.clipboard.writeText('https://www.google.com/maps/d/u/0/viewer?mid=1nfTrQzDvmExHt1snYWuP85scawsx8VA'); } catch {}
+    });
+  })();
+
+  // Petition counter
+  (() => {
+    const WORKER = "https://purple-disk-7f9c.obadaachkar.workers.dev/";
+    const countEl = document.getElementById('petition-count');
+    const goalEl = document.getElementById('next-goal');
+    const fillEl = document.getElementById('progress-fill');
+    const updEl = document.getElementById('petition-updated');
+    const chips = [...document.querySelectorAll('[data-goal]')];
+    let goal = 650;
+    function render(count) {
+      countEl.textContent = count.toLocaleString();
+      const pct = Math.min(100, Math.round((count / goal) * 100));
+      goalEl.textContent = `${count.toLocaleString()} of ${goal.toLocaleString()} to goal`;
+      fillEl.style.width = pct + '%';
+    }
+    async function refresh() {
+      try {
+        const r = await fetch(WORKER, { cache: 'no-store' });
+        const { ok, count } = await r.json();
+        if (ok && Number.isFinite(count)) {
+          render(count);
+          updEl.textContent = `Updated ${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+        }
+      } catch {}
+    }
+    chips.forEach(c => c.addEventListener('click', () => {
+      goal = Number(c.dataset.goal);
+      chips.forEach(x => x.style.borderColor = x === c ? '#b5493a' : '');
+      const last = parseInt(countEl.textContent.replace(/,/g, '')) || 0;
+      if (last > 0) render(last);
+    }));
+    const io = new IntersectionObserver(es => {
+      if (es[0].isIntersecting) { refresh(); io.disconnect(); setInterval(refresh, 600000); }
+    }, { threshold: 0 });
+    const pc = document.getElementById('petition-card');
+    if (pc) io.observe(pc);
+  })();
+
+  // ===== Explore Articles =====
+  (() => {
+    const ARTICLES = [
+      {
+        title: "Dangerous by Design: Why U.S. pedestrian deaths keep rising",
+        url: "https://smartgrowthamerica.org/dangerous-by-design/",
+        source: "Smart Growth America",
+        tags: ["safety","policy"],
+        summary: "The definitive national report on why pedestrian fatalities increased 48% since 2014 — pinpointing high-speed arterials and the design choices that kill.",
+        cover: "images/art-pedestrian.jpg"
+      },
+      {
+        title: "From London to Houston: Pedestrianisation initiatives shaping walkable cities",
+        url: "https://www.archdaily.com/1037458/from-london-to-houston-four-ongoing-pedestrianisation-initiatives-shaping-more-walkable-cities",
+        source: "ArchDaily",
+        tags: ["design","policy"],
+        summary: "Four real-world projects — including Houston's Main Street Promenade — transforming car-dominated corridors into people-first public spaces.",
+        cover: "images/art-city.jpg"
+      },
+      {
+        title: "Protected bike lanes reduce injuries for ALL road users by 40–50%",
+        url: "https://www.peopleforbikes.org/statistics/economic-benefits",
+        source: "PeopleForBikes",
+        tags: ["safety","economy"],
+        summary: "The data is clear: separated bike infrastructure doesn't just help cyclists — it cuts crashes for drivers and pedestrians too, while boosting local retail.",
+        cover: "images/art-bike.jpg"
+      },
+      {
+        title: "Complete Streets boost safety for older adults — AARP research",
+        url: "https://www.aarp.org/pri/topics/livable-communities/complete-streets-neighborhood-walkability-older-pedestrian-safety/",
+        source: "AARP",
+        tags: ["safety","design"],
+        summary: "Adults 65+ account for 20% of pedestrian deaths. Complete Streets with refuge islands, curb ramps, and shorter crossings dramatically reduce that risk.",
+        cover: "images/art-crossing.jpg"
+      },
+      {
+        title: "Foot Traffic Ahead: Walkable places outperform economically",
+        url: "https://smartgrowthamerica.org/resources/foot-traffic-ahead-2023/",
+        source: "Smart Growth America",
+        tags: ["economy","policy"],
+        summary: "Walkable urban areas generate higher GDP per capita, stronger rents, and more equitable access to opportunity than car-dependent suburbs.",
+        cover: "images/art-downtown.jpg"
+      },
+      {
+        title: "The 'Stroad' problem: Why hybrid roads fail at everything",
+        url: "https://www.strongtowns.org/journal/2017/10/5/the-stroad",
+        source: "Strong Towns",
+        tags: ["policy","economy","safety"],
+        summary: "Multi-lane corridors with driveways everywhere are the deadliest, least productive streets in America. Here's how cities are converting them.",
+        cover: "images/art-road.jpg"
+      },
+      {
+        title: "USDOT: Improving safety for walking, biking, and rolling",
+        url: "https://www.transportation.gov/pedestrian-bicycle-safety",
+        source: "US DOT",
+        tags: ["safety","policy"],
+        summary: "Federal strategies, funding programs, and evidence-based countermeasures for states and cities to reduce pedestrian and cyclist fatalities.",
+        cover: "images/art-park.jpg"
+      },
+      {
+        title: "Urban Bikeway Design Guide: Networks for all ages & abilities",
+        url: "https://nacto.org/publication/urban-bikeway-design-guide/",
+        source: "NACTO",
+        tags: ["design","safety"],
+        summary: "The gold standard guide for building bike networks with traffic separation, safe intersections, and wayfinding that connects daily destinations.",
+        cover: "images/art-street.jpg"
+      }
+    ];
+
+    const row = document.getElementById('art-row');
+    const chips = document.getElementById('art-chips');
+    const search = document.getElementById('art-search');
+    const openSaved = document.getElementById('art-open-saved');
+    const LS = 'mp_saved_v2';
+    const saved = new Set(JSON.parse(localStorage.getItem(LS)||'[]'));
+    let tag = 'all', q = '';
+
+    function saveToggle(url, btn) {
+      if (saved.has(url)) { saved.delete(url); btn.classList.remove('saved'); }
+      else { saved.add(url); btn.classList.add('saved'); }
+      localStorage.setItem(LS, JSON.stringify([...saved]));
+    }
+
+    function render() {
+      const filtered = ARTICLES.filter(a => {
+        const tagOk = tag === 'all' || a.tags.includes(tag);
+        const qLow = q.toLowerCase();
+        return tagOk && (!qLow || (a.title + a.summary + a.source).toLowerCase().includes(qLow));
+      });
+      row.innerHTML = filtered.map(a => `
+        <article class="art-card snap-start">
+          <a href="${a.url}" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;">
+            <div class="relative"><img src="${a.cover}" alt="" loading="lazy" referrerpolicy="no-referrer"><span class="art-badge">${a.source}</span></div>
+            <h3 class="art-title">${a.title}</h3>
+            <p class="art-summary">${a.summary}</p>
+          </a>
+          <div class="art-meta">
+            <span class="art-tag">${a.tags[0]}</span>
+            <div class="art-actions">
+              <button class="art-btn" title="Open" onclick="window.open('${a.url}','_blank')"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 3h7v7"/><path d="M10 14L21 3"/></svg></button>
+              <button class="art-btn share-btn" title="Copy link" data-url="${a.url}"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.59 13.51l6.83 3.98M15.41 6.51L8.59 10.49"/></svg></button>
+              <button class="art-btn save-btn ${saved.has(a.url)?'saved':''}" title="Save" data-url="${a.url}"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></button>
+            </div>
+          </div>
+        </article>
+      `).join('');
+      row.querySelectorAll('.save-btn').forEach(b => b.addEventListener('click', () => saveToggle(b.dataset.url, b)));
+      row.querySelectorAll('.share-btn').forEach(b => b.addEventListener('click', () => { navigator.clipboard.writeText(b.dataset.url); }));
+    }
+
+    chips.addEventListener('click', e => {
+      if (!e.target.matches('.art-chip')) return;
+      chips.querySelectorAll('.art-chip').forEach(c => c.classList.remove('active'));
+      e.target.classList.add('active');
+      tag = e.target.dataset.tag;
+      render();
+    });
+    search.addEventListener('input', () => { q = search.value; render(); });
+    openSaved.addEventListener('click', () => { if (!saved.size) return; [...saved].forEach(u => window.open(u, '_blank')); });
+    document.querySelector('.art-prev').addEventListener('click', () => row.scrollBy({ left: -360, behavior: 'smooth' }));
+    document.querySelector('.art-next').addEventListener('click', () => row.scrollBy({ left: 360, behavior: 'smooth' }));
+    render();
+  })();
+  </script>
+</body>
+</html>
